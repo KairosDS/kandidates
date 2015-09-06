@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Kandidates</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../bower_components/lodash/lodash.min.js"></script>
+        <script src="../bower_components/moment/min/moment.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+        <link rel="import" href="scripts/polymer/candidate-list.html"/>
+        <link rel="import" href="scripts/polymer/candidate-item.html"/>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <header>
+        	<nav class="navbar">
+        		<div class="container">
+        			<div class="navbar-header"><a href="#" class="navbar-brand">Kandidates</a></div>
+        			<div id="navbar" class="navbar-collapse collapse">
+        				<ul class="nav navbar-nav">
+        					<li><a href="#">Main</a></li>
+        					<li><a href="#">Help</a></li>
+        				</ul>
+        			</div>
+        		</div>
+        	</nav>
+        </header>
+
+        <div class="container">
+
+	      	<candidate-list bordered>
+	      		<candidate-item surname="Nadella" name="Satya" years="15" status="2" category="CEO"></candidate-item>
+	      		<candidate-item surname="Cook" name="Timothy" years="7" status="9" category="CEO"></candidate-item>
+	      		<candidate-item surname="Page" name="Larry" years="10" status="7" category="CEO"></candidate-item>
+	      		<candidate-item surname="Bezos" name="Jeffrey" years="13" status="5" category="CEO"></candidate-item>
+	      	</candidate-list>
+
+        </div>
+
+        <footer class="footer">
+        	<div class="container">
+        		<p>&copy; Kandidates 2015</p>
+        	</div>
+        </footer>
+        
+    </body>
+</html>

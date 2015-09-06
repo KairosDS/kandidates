@@ -1,0 +1,29 @@
+{
+  "name": "kandidates",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jagomf/kandidates",
+  "authors": [
+    "Jago"
+  ],
+  "description": "Gestion de candidatos",
+  "main": "app/index.html",
+  "keywords": [
+    "javascript",
+    "polymer",
+    "candidates"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "lodash": "~3.10.1",
+    "moment": "~2.10.6",
+    "polymer": "Polymer/polymer#1.0.0"
+  }
+}

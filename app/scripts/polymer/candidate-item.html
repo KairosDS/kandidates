@@ -1,0 +1,115 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html"/>
+<dom-module name="candidate-item">
+
+  <style>
+    tr, td {
+      border: 0;
+    }
+    .personal {
+      font-weight: bold;
+    }
+    .personal .name {
+      font-style: italic;
+    }
+    .status-grayed {
+      color: '#777'
+    }
+    .status-oblique {
+      font-style: italic;
+    }
+    .status-down {
+      color: '#3c763d';
+      font-style: italic;
+    }
+    .status-info {
+      color: '#31708f'
+    }
+    .status-warn {
+      color: '#8a6d3b'
+    }
+    .status-good {
+      color: '#3c763d'
+    }
+  </style>
+  
+  <template>
+    <tr class="item-row">
+      <td class="personal"><span class="surname">{{surname}}</span>, <span class="name">{{name}}</span></td>
+      <td class="years"><span>{{years}}</span></td>
+      <td class="status"><span class="{{styleStatus(status)}}">{{makeStatus(status)}}</span></td>
+      <td class="category">{{category}}</td>
+    </tr>
+  </template>
+
+  <script type="text/javascript">
+    var getStatus = function (status) {
+      if(status < statusCodes.length)
+        return statusCodes[status];
+      throw Error('invalid status code');
+    };
+    var statusCodes = [
+      {'cType': 'notyet', 'cValue': 'Not contacted'},
+      {'cType': 'waiting', 'cValue': 'Waiting for reply'},
+      {'cType': 'moreinfo', 'cValue': 'Wants more info'},
+      {'cType': 'meetingreq', 'cValue': 'Meeting requested'},
+      {'cType': 'meetingsched', 'cValue': 'Meeting scheduled'},
+      {'cType': 'evaluating', 'cValue': 'Evaluating'},
+      {'cType': 'accepted', 'cValue': 'Accepted'},
+      {'cType': 'signed', 'cValue': 'Signed'},
+      {'cType': 'nexttime', 'cValue': 'Wait some time'}
+      {'cType': 'off', 'cValue': 'Discarded'}
+    ];
+
+    Polymer({
+      is: 'candidate-item',
+      properties: {
+        surname: {
+          type: String,
+          value: 'Surame'
+        },
+        name: {
+          type: String,
+          value: 'Name'
+        },
+        years: {
+          type: Number,
+          value: 1
+        },
+        status: {
+          type: Number,
+          value: 0
+        },
+        category: {
+          type: String,
+          value: 'Catg'
+        }
+      },
+      styleStatus: function (status) {
+        var currentStatus = getStatus(status);
+        switch(currentStatus.cType) {
+          case 'waiting':
+          case 'meetingreq':
+          case 'meetingsched':
+            return 'status-info';
+          case 'moreinfo':
+          case 'evaluating':
+            return 'status-warn';
+          case 'signed':
+          case 'accepted':
+            return 'status-good';
+          case 'off':
+            return 'status-down';
+          case 'notyet':
+            return 'status-grayed status-oblique';
+          case 'nexttime':
+          default:
+            return 'status-grayed';
+        };
+      },
+      makeStatus: function (status) {
+        return getStatus(status).cValue;
+      }
+    });
+  </script>
+
+</dom-module>

@@ -1,0 +1,31 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html"/>
+<dom-module name="candidate-list">
+
+  <style>
+    .no-border {
+      border: 0;
+    }
+  </style>
+  
+  <template>
+    <table class="{{makeStyle(bordered)}}">
+      <content></content>
+    </table>
+  </template>
+
+  <script type="text/javascript">
+    Polymer({
+      is: 'candidate-list',
+      properties: {
+        bordered: {
+          type: Boolean,
+          value: false
+        }
+      },
+      makeStyle: function (status) {
+        return status ? '' : 'no-border';
+      }
+    });
+  </script>
+
+</dom-module>

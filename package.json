@@ -1,0 +1,24 @@
+{
+  "name": "kandidates",
+  "version": "0.0.1",
+  "description": "Gestion de candidatos",
+  "main": "app/index.html",
+  "scripts": {
+    "test": "echo \"Not implemented\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jagomf/kandidates.git"
+  },
+  "keywords": [
+    "javascript",
+    "polymer",
+    "candidates"
+  ],
+  "author": "Jago",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jagomf/kandidates/issues"
+  },
+  "homepage": "https://github.com/jagomf/kandidates#readme"
+}

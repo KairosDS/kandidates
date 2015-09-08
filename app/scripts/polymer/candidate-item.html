@@ -2,15 +2,54 @@
 <dom-module name="candidate-item">
 
   <style>
-    tr, td {
+    /* General */
+    .candidate-item {
+      display: block;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 1px 1px rgba(0,0,0,.05);
+      padding: 15px;
+    }
+    .candidate-item {
       border: 0;
     }
+    .candidate-item > div {
+      display: inline-block;
+      padding: 0;
+    }
+
+    /* Display in rows */
+    .candidate-list .candidate-item {
+      display: table-row;
+      border-radius: 0;
+      box-shadow: none;
+      border: 0 solid black;
+      border-top-width: 1px;
+      border-bottom-width: 1px;
+      padding: 3px;
+    }
+    .candidate-list .candidate-item:first-child {
+      border-top-width: 0;
+    }
+    .candidate-list .candidate-item:last-child {
+      border-bottom-width: 0;
+    }
+    .candidate-list .candidate-item > div {
+      display: table-cell;
+    }
+    .candidate-list .candidate-item .extra {
+      display: none;
+    }
+
+    /* Inner styling */
     .personal {
       font-weight: bold;
     }
     .personal .name {
       font-style: italic;
     }
+
+    /* Status styling */
     .status-grayed {
       color: '#777'
     }
@@ -33,12 +72,13 @@
   </style>
 
   <template>
-    <tr class="candidate-item item-row">
-      <td class="personal"><span class="surname">{{surname}}</span>, <span class="name">{{name}}</span></td>
-      <td class="years"><span>{{years}}</span></td>
-      <td class="status"><span class="{{styleStatus(status)}}">{{makeStatus(status)}}</span></td>
-      <td class="category">{{category}}</td>
-    </tr>
+    <div class="candidate-item">
+      <div class="personal"><span class="surname">{{surname}}</span>, <span class="name">{{name}}</span></div>
+      <div class="years"><span>{{years}}</span></div>
+      <div class="status"><span class="{{styleStatus(status)}}">{{makeStatus(status)}}</span></div>
+      <div class="category">{{category}}</div>
+      <div class="extra"><content></content></div>
+    </div>
   </template>
 
   <script type="text/javascript">

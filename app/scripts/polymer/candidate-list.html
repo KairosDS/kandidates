@@ -2,15 +2,18 @@
 <dom-module name="candidate-list">
 
   <style>
+    .candidate-list {
+      display: table;
+    }
     .no-border {
       border: 0;
     }
   </style>
 
   <template>
-    <table class="candidate-list {{makeStyle(bordered)}}">
+    <div class="candidate-list {{makeStyle(bordered)}}">
       <content></content>
-    </table>
+    </div>
   </template>
 
   <script type="text/javascript">

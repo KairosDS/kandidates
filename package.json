@@ -4,7 +4,7 @@
   "description": "Gestion de candidatos",
   "main": "app/index.html",
   "scripts": {
-    "start": "grunt serve",
+    "start": "grunt runopen",
     "test": "echo \"Not implemented\""
   },
   "repository": {

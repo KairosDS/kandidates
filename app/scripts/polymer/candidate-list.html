@@ -2,22 +2,21 @@
 <dom-module name="candidate-list">
 
   <style>
-    .candidate-list {
+    :host {
       display: table;
+      width: 100%;
     }
-    .no-border {
-      border: 0;
+    :host.bordered {
+      border: 1px solid black;
     }
   </style>
 
   <template>
-    <div class="candidate-list {{makeStyle(bordered)}}">
-      <content></content>
-    </div>
+    <content></content>
   </template>
 
   <script type="text/javascript">
-    Polymer({
+    Polylist = Polymer({
       is: 'candidate-list',
       properties: {
         bordered: {
@@ -25,10 +24,12 @@
           value: false
         }
       },
-      makeStyle: function (status) {
-        return status ? '' : 'no-border';
+      attached: function () {
+        if(this.bordered)
+          $(this).addClass('bordered');
       }
     });
+    var polylist = new Polylist();
   </script>
 
 </dom-module>

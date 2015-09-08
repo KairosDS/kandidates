@@ -3,23 +3,20 @@
 
   <style>
     /* General */
-    .candidate-item {
+    :host {
       display: block;
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 1px 1px rgba(0,0,0,.05);
       padding: 15px;
     }
-    .candidate-item {
-      border: 0;
-    }
-    .candidate-item > div {
+    :host > div {
       display: inline-block;
       padding: 0;
     }
 
     /* Display in rows */
-    .candidate-list .candidate-item {
+    :host.list {
       display: table-row;
       border-radius: 0;
       box-shadow: none;
@@ -28,16 +25,16 @@
       border-bottom-width: 1px;
       padding: 3px;
     }
-    .candidate-list .candidate-item:first-child {
+    :host.list:first-child {
       border-top-width: 0;
     }
-    .candidate-list .candidate-item:last-child {
+    :host.list:last-child {
       border-bottom-width: 0;
     }
-    .candidate-list .candidate-item > div {
+    :host.list > div {
       display: table-cell;
     }
-    .candidate-list .candidate-item .extra {
+    :host.list .extra {
       display: none;
     }
 
@@ -72,13 +69,11 @@
   </style>
 
   <template>
-    <div class="candidate-item">
-      <div class="personal"><span class="surname">{{surname}}</span>, <span class="name">{{name}}</span></div>
-      <div class="years"><span>{{years}}</span></div>
-      <div class="status"><span class="{{styleStatus(status)}}">{{makeStatus(status)}}</span></div>
-      <div class="category">{{category}}</div>
-      <div class="extra"><content></content></div>
-    </div>
+    <div class="personal"><span class="surname">{{surname}}</span>, <span class="name">{{name}}</span></div>
+    <div class="years"><span>{{years}}</span></div>
+    <div class="status"><span>{{makeStatus(status)}}</span></div>
+    <div class="category">{{category}}</div>
+    <div class="extra"><content></content></div>
   </template>
 
   <script type="text/javascript">
@@ -86,6 +81,41 @@
       if(status < statusCodes.length)
         return statusCodes[status];
       throw Error('invalid status code');
+    };
+    var stylize = function (ctx) {
+      //List style
+      if(ctx.list)
+        $(ctx).addClass('list');
+
+      //Status
+      var currentStatus = getStatus(ctx.status), className;
+      switch(currentStatus.cType) {
+        case 'waiting':
+        case 'meetingreq':
+        case 'meetingsched':
+          className = 'status-info';
+          break;
+        case 'moreinfo':
+        case 'evaluating':
+          className = 'status-warn';
+          break;
+        case 'signed':
+        case 'accepted':
+          className = 'status-good';
+          break;
+        case 'off':
+          className = 'status-down';
+          break;
+        case 'notyet':
+          className = 'status-grayed status-oblique';
+          break;
+        case 'nexttime':
+        default:
+          className = 'status-grayed';
+          break;
+      };
+      $(ctx).find('.status').addClass(className);
+
     };
     var statusCodes = [
       {'cType': 'notyet', 'cValue': 'Not contacted'},
@@ -100,7 +130,7 @@
       {'cType': 'off', 'cValue': 'Discarded'}
     ];
 
-    Polymer({
+    Polyitem = Polymer({
       is: 'candidate-item',
       properties: {
         surname: {
@@ -122,34 +152,20 @@
         category: {
           type: String,
           value: 'Catg'
+        },
+        list: {
+          type: Boolean,
+          value: true
         }
       },
-      styleStatus: function (status) {
-        var currentStatus = getStatus(status);
-        switch(currentStatus.cType) {
-          case 'waiting':
-          case 'meetingreq':
-          case 'meetingsched':
-            return 'status-info';
-          case 'moreinfo':
-          case 'evaluating':
-            return 'status-warn';
-          case 'signed':
-          case 'accepted':
-            return 'status-good';
-          case 'off':
-            return 'status-down';
-          case 'notyet':
-            return 'status-grayed status-oblique';
-          case 'nexttime':
-          default:
-            return 'status-grayed';
-        };
+      attached: function () {
+        stylize(this);
       },
       makeStatus: function (status) {
         return getStatus(status).cValue;
       }
     });
+    var polyitem = new Polyitem();
   </script>
 
 </dom-module>

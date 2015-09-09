@@ -1,0 +1,7 @@
+.list-container {
+	display: table;
+	width: 100%;
+}
+code {
+	white-space: nowrap;
+}

@@ -12,7 +12,7 @@
     }
     :host > div {
       display: inline-block;
-      padding: 0;
+      padding: 3px;
     }
 
     /* Display in rows */
@@ -77,6 +77,15 @@
   </template>
 
   <script type="text/javascript">
+    /**
+      * Requirement: import a config file with data
+      * Structure:
+      * var statusCodes = [
+      *   {'cType': 'sTypeCode', 'cValue': 'Status info text'},
+      *   ...
+      * ];
+      */
+
     var getStatus = function (status) {
       if(status < statusCodes.length)
         return statusCodes[status];
@@ -90,26 +99,22 @@
       //Status
       var currentStatus = getStatus(ctx.status), className;
       switch(currentStatus.cType) {
-        case 'waiting':
-        case 'meetingreq':
-        case 'meetingsched':
+        case 'sWait':
           className = 'status-info';
           break;
-        case 'moreinfo':
-        case 'evaluating':
+        case 'sReq':
           className = 'status-warn';
           break;
-        case 'signed':
-        case 'accepted':
+        case 'sDone':
           className = 'status-good';
           break;
-        case 'off':
+        case 'sOff':
           className = 'status-down';
           break;
-        case 'notyet':
+        case 'sAvai':
           className = 'status-grayed status-oblique';
           break;
-        case 'nexttime':
+        case 'sNext':
         default:
           className = 'status-grayed';
           break;
@@ -117,18 +122,6 @@
       $(ctx).find('.status').addClass(className);
 
     };
-    var statusCodes = [
-      {'cType': 'notyet', 'cValue': 'Not contacted'},
-      {'cType': 'waiting', 'cValue': 'Waiting for reply'},
-      {'cType': 'moreinfo', 'cValue': 'Wants more info'},
-      {'cType': 'meetingreq', 'cValue': 'Meeting requested'},
-      {'cType': 'meetingsched', 'cValue': 'Meeting scheduled'},
-      {'cType': 'evaluating', 'cValue': 'Evaluating'},
-      {'cType': 'accepted', 'cValue': 'Accepted'},
-      {'cType': 'signed', 'cValue': 'Signed'},
-      {'cType': 'nexttime', 'cValue': 'Wait some time'},
-      {'cType': 'off', 'cValue': 'Discarded'}
-    ];
 
     Polyitem = Polymer({
       is: 'candidate-item',

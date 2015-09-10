@@ -5,3 +5,6 @@
 code {
 	white-space: nowrap;
 }
+.hidden {
+	display: none;
+}

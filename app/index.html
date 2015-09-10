@@ -48,12 +48,10 @@
         <div class="container">
         	<div class="panel panel-default">
         		<div class="panel-heading"><code>&lt;candidate-item&gt;</code> static elements</div>
-        		<div class="panel-body list-container">
-		      		<candidate-item list surname="Nadella" name="Satya" years="15" status="4" category="CEO"></candidate-item>
-		      		<candidate-item list surname="Cook" name="Timothy" years="7" status="9" category="CEO"></candidate-item>
-		      		<candidate-item list surname="Page" name="Larry" years="10" status="7" category="CEO"></candidate-item>
-		      		<candidate-item list surname="Bezos" name="Jeffrey" years="13" status="5" category="CEO"></candidate-item>
-		      		<candidate-item list surname="Branson" name="Richard" years="16" status="0" category="CEO"></candidate-item>
+        		<div class="panel-body">
+		      		<candidate-item surname="Page" name="Larry" years="10" status="7" category="CEO"></candidate-item>
+		      		<candidate-item surname="Bezos" name="Jeffrey" years="13" status="5" category="CEO">Extra notes</candidate-item>
+		      		<candidate-item surname="Branson" name="Richard" years="16" status="0" category="CEO"></candidate-item>
         		</div>
         	</div>
 
@@ -61,8 +59,12 @@
         		<div class="panel-heading">
         			<code>&lt;candidate-list&gt;</code> dynamic collection of <code>&lt;candidate-item&gt;</code> elements
     			</div>
-        		<div class="panel-body">
-	      			<candidate-list bordered></candidate-list>
+        		<div class="panel-body list-container">
+	      			<candidate-list bordered>
+	      				<!-- These are 2 extra items inserted after dynamic list -->
+	      				<candidate-item list surname="Nadella" name="Satya" years="15" status="4" category="CEO"></candidate-item>
+		      			<candidate-item list surname="Cook" name="Timothy" years="7" status="9" category="CEO"></candidate-item>
+	      			</candidate-list>
         		</div>
         	</div>
 

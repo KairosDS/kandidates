@@ -4,19 +4,36 @@
   <style>
     /* General */
     :host {
+      margin: 10px auto;
       display: block;
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 1px 1px rgba(0,0,0,.05);
       padding: 15px;
     }
-    :host > div {
-      display: inline-block;
+    :host:first-child {
+      margin-top: 0;
+    }
+    :host:last-child {
+      margin-bottom: 0;
+    }
+    :host .field {
+      display: block;
       padding: 3px;
+    }
+    .field#years, .field#status, .field#category {
+      display: inline-block;
+    }
+    :host .field label {
+      font-variant: small-caps;
+    }
+    :host .field label::after {
+      content: ": ";
     }
 
     /* Display in rows */
     :host.list {
+      margin: 0 auto;
       display: table-row;
       border-radius: 0;
       box-shadow: none;
@@ -31,49 +48,69 @@
     :host.list:last-child {
       border-bottom-width: 0;
     }
-    :host.list > div {
-      display: table-cell;
+    :host.list .field {
+      display: table-cell !important;
+    }
+    :host.list .field label {
+      display: none;
     }
     :host.list .extra {
       display: none;
     }
 
     /* Inner styling */
-    .personal {
+    .field.personal .fielddata {
       font-weight: bold;
     }
-    .personal .name {
+    .field.personal .fielddata #name {
       font-style: italic;
     }
 
     /* Status styling */
-    .status-grayed {
+    .field.status .fielddata.status-grayed {
       color: #777;
     }
-    .status-oblique {
+    .field.status .fielddata.status-oblique {
       font-style: italic;
     }
-    .status-down {
+    .field.status .fielddata.status-down {
       color: #a94442;
       font-style: italic;
     }
-    .status-info {
+    .field.status .fielddata.status-info {
       color: #31708f;
     }
-    .status-warn {
+    .field.status .fielddata.status-warn {
       color: #8a6d3b;
     }
-    .status-good {
+    .field.status .fielddata.status-good {
       color: #3c763d;
     }
   </style>
 
   <template>
-    <div class="personal"><span class="surname">{{surname}}</span>, <span class="name">{{name}}</span></div>
-    <div class="years"><span>{{years}}</span></div>
-    <div class="status"><span>{{makeStatus(status)}}</span></div>
-    <div class="category">{{category}}</div>
-    <div class="extra"><content></content></div>
+    <div class="field personal">
+      <label>Name</label>
+      <span class="fielddata" id="personalContent">
+        <span id="surname">{{surname}}</span>, <span id="name">{{name}}</span>
+      </span>
+    </div>
+    <div class="field years" id="years">
+      <label>Years</label>
+      <span id="yearsContent" class="fielddata">{{years}}</span>
+    </div>
+    <div class="field status" id="status">
+      <label>Status</label>
+      <span id="statusContent" class="fielddata">{{makeStatus(status)}}</span>
+    </div>
+    <div class="field category" id="category">
+      <label>Category</label>
+      <span id="categoryContent" class="fielddata">{{category}}</span>
+    </div>
+    <div class="field extra" id="extra">
+      <label>Notes</label>
+      <div id="extraContent" class="fielddata"><content></content></div>
+    </div>
   </template>
 
   <script type="text/javascript">
@@ -91,10 +128,24 @@
         return statusCodes[status];
       throw Error('invalid status code');
     };
+    var fieldIsEmpty = function (ctx, field) {
+      var hasLabel = _.find(field.children, function (thisInner) {
+        return $(thisInner).is('label');
+      });
+      var hasAnyContent = !_.isEmpty(_.trim(field.innerHTML));
+      return (field.children.length === 1 && !_.isUndefined(hasLabel) && !hasAnyContent)
+        || (field.children.length === 0 && !hasAnyContent);
+    };
+    var isListMode = function (ctx) {
+      return ctx.hasAttribute('list');
+    };
     var stylize = function (ctx) {
       //List style
       if(ctx.list)
         $(ctx).addClass('list');
+
+      if(!isListMode(ctx) && fieldIsEmpty(ctx, ctx.$.extraContent))
+        $(ctx.$.extra).addClass('hidden');
 
       //Status
       var currentStatus = getStatus(ctx.status), className;
@@ -119,11 +170,11 @@
           className = 'status-grayed';
           break;
       };
-      $(ctx).find('.status').addClass(className);
+      $(ctx).find('#status .fielddata').addClass(className);
 
     };
 
-    Polyitem = Polymer({
+    Polymer({
       is: 'candidate-item',
       properties: {
         surname: {
@@ -151,14 +202,13 @@
           value: false
         }
       },
-      attached: function () {
+      ready: function () {
         stylize(this);
       },
       makeStatus: function (status) {
         return getStatus(status).cValue;
       }
     });
-    var polyitem = new Polyitem();
   </script>
 
 </dom-module>

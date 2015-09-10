@@ -12,16 +12,19 @@
   </style>
 
   <template>
-    <firebase-collection></firebase-collection>
-    <template is="dom-repeat" items="[[candidates]]" as="cand">
-      <candidate-item list surname="[[cand.surname]]" name="[[cand.name]]"
-        years="[[cand.years]]" status="[[cand.status]]" category="[[cand.catg]]">
-      </candidate-item>
+    <template is="dom-bind">
+      <firebase-collection></firebase-collection>
+      <template is="dom-repeat" items="[[candidates]]" as="cand">
+        <candidate-item list surname="[[cand.surname]]" name="[[cand.name]]"
+          years="[[cand.years]]" status="[[cand.status]]" category="[[cand.catg]]">
+        </candidate-item>
+      </template>
     </template>
+    <content/>
   </template>
 
   <script type="text/javascript">
-    Polylist = Polymer({
+    Polymer({
       is: 'candidate-list',
       properties: {
         bordered: {
@@ -29,12 +32,11 @@
           value: false
         }
       },
-      attached: function () {
+      ready: function () {
         if(this.bordered)
           $(this).addClass('bordered');
       }
     });
-    var polylist = new Polylist();
   </script>
 
 </dom-module>

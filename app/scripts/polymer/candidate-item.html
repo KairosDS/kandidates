@@ -136,18 +136,19 @@
       return (field.children.length === 1 && !_.isUndefined(hasLabel) && !hasAnyContent)
         || (field.children.length === 0 && !hasAnyContent);
     };
-    var isListMode = function (ctx) {
-      return ctx.hasAttribute('list');
-    };
     var stylize = function (ctx) {
       //List style
-      if(ctx.list)
+      if(ctx.list) {
         $(ctx).addClass('list');
 
-      if(!isListMode(ctx) && fieldIsEmpty(ctx, ctx.$.extraContent))
-        $(ctx.$.extra).addClass('hidden');
+      } else {
 
-      //Status
+        //Hide extra notes if empty
+        if(fieldIsEmpty(ctx, ctx.$.extraContent))
+          $(ctx.$.extra).addClass('hidden');
+      }
+
+      //Colorize status
       var currentStatus = getStatus(ctx.status), className;
       switch(currentStatus.cType) {
         case 'sWait':
@@ -170,7 +171,7 @@
           className = 'status-grayed';
           break;
       };
-      $(ctx).find('#status .fielddata').addClass(className);
+      $(ctx.$.statusContent).addClass(className);
 
     };
 
